@@ -4665,6 +4665,16 @@ public interface Guild extends IGuildChannelContainer, ISnowflake
     @CheckReturnValue
     RoleOrderAction modifyRolePositions(boolean useAscendingOrder);
 
+    /**
+     * Retrieves the {@link net.dv8tion.jda.api.entities.GuildWelcomeScreen GuildWelcomeScreen}
+     * for this guild.
+     *
+     * @return {@link RestAction RestAction} - Type: {@link GuildWelcomeScreen GuildWelcomeScreen}
+     */
+    @Nonnull
+    @CheckReturnValue
+    RestAction<GuildWelcomeScreen> retrieveWelcomeScreen();
+
     //////////////////////////
 
     /**
