@@ -1852,6 +1852,24 @@ public class GuildImpl implements Guild
         return new RoleOrderActionImpl(this, useAscendingOrder);
     }
 
+    @Nonnull
+    @Override
+    public RestAction<GuildWelcomeScreen> retrieveWelcomeScreen()
+    {
+        // check features
+        boolean welcomeScreenEnabled = getFeatures().stream()
+                .anyMatch(str -> str.equals("WELCOME_SCREEN_ENABLED"));
+
+        if (!welcomeScreenEnabled && !getSelfMember().hasPermission(Permission.MANAGE_SERVER))
+            throw new InsufficientPermissionException(this, Permission.MANAGE_SERVER, "MANAGE_SERVER permissions are required to retrieve information on disabled welcome screens!");
+
+        Route.CompiledRoute route = Route.Guilds.GET_WELCOME_SCREEN.compile(this.getId());
+
+        return new RestActionImpl<>(getJDA(), route,
+                (response, request) -> api.getEntityBuilder()
+                        .createGuildWelcomeScreen(this, response.getObject()));
+    }
+
     protected void checkGuild(Guild providedGuild, String comment)
     {
         if (!equals(providedGuild))
