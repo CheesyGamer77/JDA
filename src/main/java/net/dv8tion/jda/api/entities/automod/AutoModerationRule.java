@@ -18,6 +18,7 @@ package net.dv8tion.jda.api.entities.automod;
 
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.automod.build.AutoModerationMessageSend;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.utils.data.SerializableData;
 import net.dv8tion.jda.internal.entities.automod.build.AutoModerationMessageSendImpl;
 
