@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
  *
  * <p>Can be used to detect any AutoModerationUpdateEvent.
  */
-public class GenericAutoModerationUpdateRuleEvent<T> extends GenericAutoModerationEvent implements UpdateEvent<AutoModerationRule, T>
+public abstract class GenericAutoModerationUpdateRuleEvent<T> extends GenericAutoModerationEvent implements UpdateEvent<AutoModerationRule, T>
 {
 
     protected final AutoModerationField field;

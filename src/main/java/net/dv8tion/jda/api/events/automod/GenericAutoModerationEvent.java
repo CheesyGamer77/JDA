@@ -34,7 +34,7 @@ import java.util.List;
  *
  * <p>These events require the {@link net.dv8tion.jda.api.requests.GatewayIntent#AUTO_MODERATION_CONFIGURATION AUTO_MODERATION_CONFIGURATION} intent.
  */
-public class GenericAutoModerationEvent extends Event
+public abstract class GenericAutoModerationEvent extends Event
 {
     protected final AutoModerationRule rule;
 
