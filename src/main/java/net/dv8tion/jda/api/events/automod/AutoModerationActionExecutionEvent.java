@@ -19,7 +19,7 @@ public class AutoModerationActionExecutionEvent extends GenericAutoModerationEve
 
     private final AutoModerationAction executedAction;
     private final User triggerer;
-    private final TriggerType ruleTriggerer;
+    private final TriggerType triggerType;
     private final GuildChannel channel;
     private final long messageId;
     private final long alertSystemMessageId;
@@ -27,30 +27,19 @@ public class AutoModerationActionExecutionEvent extends GenericAutoModerationEve
     private final String matchedKeyword;
     private final String matchedContent;
 
-    public AutoModerationActionExecutionEvent(@Nonnull JDA api, long responseNumber, @Nonnull AutoModerationRule rule, @Nonnull AutoModerationAction executedAction, @Nonnull User triggerer, @Nonnull TriggerType ruleTriggerer, @Nullable GuildChannel channel, long messageId, long alertSystemMessageId, @Nullable String content, @Nullable String matchedKeyword, @Nullable String matchedContent)
+    public AutoModerationActionExecutionEvent(@Nonnull JDA api, long responseNumber, @Nonnull AutoModerationRule rule, @Nonnull AutoModerationAction executedAction, @Nonnull User triggerer, @Nonnull TriggerType triggerType, @Nullable GuildChannel channel, long messageId, long alertSystemMessageId, @Nullable String content, @Nullable String matchedKeyword, @Nullable String matchedContent)
     {
         super(api, responseNumber, rule);
         this.rule = rule;
         this.executedAction = executedAction;
         this.triggerer = triggerer;
-        this.ruleTriggerer = ruleTriggerer;
+        this.triggerType = triggerType;
         this.channel = channel;
         this.messageId = messageId;
         this.alertSystemMessageId = alertSystemMessageId;
         this.content = content;
         this.matchedKeyword = matchedKeyword;
         this.matchedContent = matchedContent;
-    }
-
-    /**
-     * Returns the {@link AutoModerationRule} that the action belongs to.
-     *
-     * @return The rule.
-     */
-    @Nonnull
-    public AutoModerationRule getRule()
-    {
-        return rule;
     }
 
     /**
@@ -83,7 +72,7 @@ public class AutoModerationActionExecutionEvent extends GenericAutoModerationEve
     @Nonnull
     public TriggerType getTriggerType()
     {
-        return ruleTriggerer;
+        return triggerType;
     }
 
     /**
