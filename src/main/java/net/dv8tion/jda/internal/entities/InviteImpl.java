@@ -18,8 +18,10 @@ package net.dv8tion.jda.internal.entities;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.Guild.VerificationLevel;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
@@ -31,6 +33,7 @@ import net.dv8tion.jda.internal.requests.RestActionImpl;
 import net.dv8tion.jda.internal.requests.Route;
 import net.dv8tion.jda.internal.requests.restaction.AuditableRestActionImpl;
 import net.dv8tion.jda.internal.utils.Checks;
+import net.dv8tion.jda.internal.utils.EntityString;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -277,7 +280,9 @@ public class InviteImpl implements Invite
     @Override
     public String toString()
     {
-        return "Invite(" + this.code + ")";
+        return new EntityString(this)
+                .addMetadata("code", code)
+                .toString();
     }
 
     public static class ChannelImpl implements Channel
@@ -317,6 +322,15 @@ public class InviteImpl implements Invite
         {
             return this.type;
         }
+
+        @Override
+        public String toString()
+        {
+            return new EntityString(this)
+                    .setType(getType())
+                    .setName(name)
+                    .toString();
+        }
     }
 
     public static class GuildImpl implements Guild
@@ -326,9 +340,11 @@ public class InviteImpl implements Invite
         private final long id;
         private final VerificationLevel verificationLevel;
         private final Set<String> features;
+        private final GuildWelcomeScreen welcomeScreen;
 
         public GuildImpl(final long id, final String iconId, final String name, final String splashId,
-                         final VerificationLevel verificationLevel, final int presenceCount, final int memberCount, final Set<String> features)
+                         final VerificationLevel verificationLevel, final int presenceCount, final int memberCount, final Set<String> features,
+                         final GuildWelcomeScreen welcomeScreen)
         {
             this.id = id;
             this.iconId = iconId;
@@ -338,12 +354,13 @@ public class InviteImpl implements Invite
             this.presenceCount = presenceCount;
             this.memberCount = memberCount;
             this.features = features;
+            this.welcomeScreen = welcomeScreen;
         }
 
         public GuildImpl(final net.dv8tion.jda.api.entities.Guild guild)
         {
             this(guild.getIdLong(), guild.getIconId(), guild.getName(), guild.getSplashId(),
-                 guild.getVerificationLevel(), -1, -1, guild.getFeatures());
+                 guild.getVerificationLevel(), -1, -1, guild.getFeatures(), null);
         }
 
         @Override
@@ -410,6 +427,21 @@ public class InviteImpl implements Invite
         {
             return features;
         }
+
+        @Nullable
+        @Override
+        public GuildWelcomeScreen getWelcomeScreen()
+        {
+            return welcomeScreen;
+        }
+
+        @Override
+        public String toString()
+        {
+            return new EntityString(this)
+                    .setName(name)
+                    .toString();
+        }
     }
 
     public static class GroupImpl implements Group
@@ -455,6 +487,14 @@ public class InviteImpl implements Invite
         public List<String> getUsers()
         {
             return users;
+        }
+
+        @Override
+        public String toString()
+        {
+            return new EntityString(this)
+                    .setName(name)
+                    .toString();
         }
     }
 
@@ -503,6 +543,15 @@ public class InviteImpl implements Invite
         public EmbeddedApplication getApplication()
         {
             return targetApplication;
+        }
+
+        @Override
+        public String toString()
+        {
+            return new EntityString(this)
+                    .setType(getType())
+                    .addMetadata("target", getTargetEntity())
+                    .toString();
         }
 
         @Nonnull
@@ -577,6 +626,14 @@ public class InviteImpl implements Invite
         public int getMaxParticipants()
         {
             return maxParticipants;
+        }
+
+        @Override
+        public String toString()
+        {
+            return new EntityString(this)
+                    .setName(name)
+                    .toString();
         }
     }
 }

@@ -40,7 +40,7 @@ plugins {
 }
 
 val javaVersion = JavaVersion.current()
-val versionObj = Version(major = "5", minor = "0", revision = "0", classifier = "alpha.17")
+val versionObj = Version(major = "5", minor = "0", revision = "0", classifier = "beta.3")
 val isCI = System.getProperty("BUILD_NUMBER") != null // jenkins
         || System.getenv("BUILD_NUMBER") != null
         || System.getProperty("GIT_COMMIT") != null // jitpack
@@ -97,15 +97,15 @@ dependencies {
     /* ABI dependencies */
 
     //Code safety
-    api("com.google.code.findbugs:jsr305:3.0.2")
-    api("org.jetbrains:annotations:23.0.0")
+    compileOnly("com.google.code.findbugs:jsr305:3.0.2")
+    compileOnly("org.jetbrains:annotations:23.0.0")
 
     //Logger
     api("org.slf4j:slf4j-api:1.7.36")
 
     //Web Connection Support
     api("com.neovisionaries:nv-websocket-client:2.14")
-    api("com.squareup.okhttp3:okhttp:4.9.3")
+    api("com.squareup.okhttp3:okhttp:4.10.0")
 
     //Opus library support
     api("club.minnced:opus-java:1.1.1")
@@ -123,13 +123,14 @@ dependencies {
     //General Utility
     implementation("net.sf.trove4j:trove4j:3.0.3")
     // Match the minor version of lavaplayers jackson dependency
-    implementation("com.fasterxml.jackson.core:jackson-core:2.13.2")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.2.2")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.14.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.14.1")
 
     //Sets the dependencies for the examples
     configurations["examplesImplementation"].withDependencies {
         addAll(configurations["api"].allDependencies)
         addAll(configurations["implementation"].allDependencies)
+        addAll(configurations["compileOnly"].allDependencies)
     }
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
